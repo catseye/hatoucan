@@ -102,13 +102,28 @@ def scan(s):
     return (ord(s[0]), s[1:])
 
 
+def scan_line_number(s):
+    acc = []
+    while s and s[0].isdigit():
+        acc.append(s[0])
+        s = s[1:]
+    return (int(''.join(acc)), s)
+
+
 def tokenize(s):
-    # TODO: strip the line number off the front, return as an int
+    (line_number, s) = scan_line_number(s)
     bytes = []
     while s:
         (byte, s) = scan(s)
         bytes.append(byte)
-    return (999, bytes)
+    return (line_number, bytes)
+
+
+def write_word(f, word):
+    """f being a file-like object, word being an integer 0-65535"""
+    low = word & 255
+    high = (word >> 8) & 255
+    f.write(chr(low) + chr(high))
 
 
 class TokenizedLine(object):
@@ -124,9 +139,9 @@ class TokenizedLine(object):
 
     def write_to(self, f):
         """f being a file-like object"""
-        assert self.next_addr is not None
-        # TODO: write line number in binary
-        # TODO: write next_addr in binary
+        #assert self.next_addr is not None
+        write_word(f, 0)  # TODO make this the next_addr
+        write_word(f, self.line_number)
         for byte in self.bytes:
             f.write(chr(byte))
         f.write(chr(0))
@@ -149,7 +164,7 @@ def main(argv):
 
     outfile = sys.stdout
 
-    sys.write(outfile, chr(1) + chr(8))  # TODO: write helper for this
+    write_word(outfile, start_addr)
 
     for tokenized_line in tokenized_lines:
         tokenized_line.write_to(outfile)
