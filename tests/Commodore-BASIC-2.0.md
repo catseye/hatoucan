@@ -28,6 +28,11 @@ All extra spaces after line number are stripped.
     | 10     print
     = 010807080a0099000000
 
+Any spaces before line number are stripped.
+
+    |    10 print
+    = 010807080a0099000000
+
 Tokens can successively follow one another.
 
     | 10 printa$
@@ -54,3 +59,14 @@ Multiple program lines.
     | 20 a=a*2
     | 30 goto 20
     = 010809080a0041b237001308140041b241ac32001c081e0089203230000000
+
+Certain control sequences in curly braces are recognized.
+
+    | 1390 print"{clr}{home}{down}{rght}{up}{left}"
+    = 01080f086e0599229313111d919d22000000
+
+    | 1390 print"{red}{cyn}{blu}{grn}{pur}{yel}{wht}"
+    = 010810086e0599221c9f1f1e9c9e0522000000
+
+    | 1390 print"{SHIFT-@}{CBM-+}"
+    = 01080b086e059922baa622000000

@@ -82,12 +82,32 @@ TOKENS = (
     ('or', 176),
     ('go', 203),
     ('+', 170),
+    ('-', 171),
     ('*', 172),
     ('/', 173),
     ('^', 174),
     ('>', 177),
     ('=', 178),
     ('<', 179),
+)
+
+
+SPECIAL = (
+    ('{SHIFT-@}',  0xba),
+    ('{CBM-+}',    0xa6),
+    ('{down}',     0x11),
+    ('{home}',     0x13),
+    ('{left}',     0x9d),
+    ('{rght}',     0x1d),
+    ('{blu}',      0x1f),
+    ('{clr}',      0x93),
+    ('{cyn}',      0x9f),
+    ('{grn}',      0x1e),
+    ('{pur}',      0x9c),
+    ('{red}',      0x1c),
+    ('{wht}',      0x05),
+    ('{yel}',      0x9e),
+    ('{up}',       0x91),
 )
 
 def ascii_to_petscii(o):  # int -> int
@@ -114,10 +134,16 @@ def scan(s):
     for (token, value) in TOKENS:
         if s.startswith(token):
            return (value, s[len(token):])
+    if s[0] == '{':
+        for (token, value) in SPECIAL:
+           if s.startswith(token):
+               return (value, s[len(token):])                
+        raise NotImplementedError(s)
     return (ascii_to_petscii(ord(s[0])), s[1:])
 
 
 def scan_line_number(s):
+    s = s.lstrip()
     acc = []
     while s and s[0].isdigit():
         acc.append(s[0])
@@ -157,7 +183,6 @@ class TokenizedLine(object):
         assert self.next_addr is not None
         write_word(f, self.next_addr)
         write_word(f, self.line_number)
-        print >>sys.stderr, [hex(b) for b in self.bytes]
         for byte in self.bytes:
             f.write(chr(byte))
         f.write(chr(0))
@@ -182,6 +207,8 @@ def main(argv):
     start_addr = 0x0801
     addr = start_addr
     for line in sys.stdin:
+        if not line.strip():
+            continue
         tokenized_line = TokenizedLine(line.rstrip(), addr)
         addr += len(tokenized_line)
         tokenized_lines.append(tokenized_line)
