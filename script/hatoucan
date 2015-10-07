@@ -1,0 +1,109 @@
+#!/usr/bin/env python
+
+# Inefficient-but-public-domain Commodore BASIC 2.0 tokenizer.
+# This work is in the public domain, covered under the UNLICENSE;
+# see http://www.unlicense.org/ for details.
+
+# references:
+#   http://justsolve.archiveteam.org/wiki/Commodore_BASIC_tokenized_file
+#   http://www.c64-wiki.com/index.php/BASIC_token
+
+TOKENS = (
+    ('END', 128),
+    ('FOR', 129),
+    ('NEXT', 130),
+    ('DATA', 131),
+    ('INPUT#', 132),
+    ('INPUT', 133),
+    ('DIM', 134),
+    ('READ', 135),
+    ('LET', 136),
+    ('GOTO', 137),
+    ('RUN', 138),
+    ('IF', 139),
+    ('RESTORE', 140),
+    ('GOSUB', 141),
+    ('RETURN', 142),
+    ('REM', 143),
+    ('STOP', 144),
+    ('ON', 145),
+    ('WAIT', 146),
+    ('LOAD', 147),
+    ('SAVE', 148),
+    ('VERIFY', 149),
+    ('DEF', 150),
+    ('POKE', 151),
+    ('PRINT#', 152),
+    ('PRINT', 153),
+    ('CONT', 154),
+    ('LIST', 155),
+    ('CLR', 156),
+    ('CMD', 157),
+    ('SYS', 158),
+    ('OPEN', 159),
+    ('CLOSE', 160),
+    ('GET', 161),
+    ('NEW', 162),
+    ('TAB(', 163),
+    ('TO', 164),
+    ('FN', 165),
+    ('SPC(', 166),
+    ('THEN', 167),
+    ('NOT', 168),
+    ('STEP', 169),
+    ('+', 170),
+    ('*', 172),
+    ('/', 173),
+    ('^', 174),
+    ('AND', 175),
+    ('OR', 176),
+    ('>', 177),
+    ('=', 178),
+    ('<', 179),
+    ('SGN', 180),
+    ('INT', 181),
+    ('ABS', 182),
+    ('USR', 183),
+    ('FRE', 184),
+    ('POS', 185),
+    ('SQR', 186),
+    ('RND', 187),
+    ('LOG', 188),
+    ('EXP', 189),
+    ('COS', 190),
+    ('SIN', 191),
+    ('TAN', 192),
+    ('ATN', 193),
+    ('PEEK', 194),
+    ('LEN', 195),
+    ('STR$', 196),
+    ('VAL', 197),
+    ('ASC', 198),
+    ('CHR$', 199),
+    ('LEFT$', 200),
+    ('RIGHT$', 201),
+    ('MID$', 202),
+    ('GO', 203),
+)
+
+sorted_tokens = sorted(TOKENS, key=lambda pair: len(pair[0]), reverse=True)
+
+
+def scan(s):
+    # so inefficient.  I don't care.
+    upped = s.upper()
+    for (token, value) in sorted_tokens:
+        if upped.startswith(token):
+           return (value, s[len(token):])
+    return (ord(s[0]), s[1:])
+
+
+def tokenize(s):
+    values = []
+    while s:
+        (value, s) = scan(s)
+        values.append(value)
+    return values
+
+
+print tokenize('FORI=1TO3:INPUT#4,"A":GO TO200')
