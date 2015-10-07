@@ -107,7 +107,7 @@ def scan_line_number(s):
     while s and s[0].isdigit():
         acc.append(s[0])
         s = s[1:]
-    return (int(''.join(acc)), s)
+    return (int(''.join(acc)), s.lstrip())
 
 
 def tokenize(s):
@@ -139,12 +139,26 @@ class TokenizedLine(object):
 
     def write_to(self, f):
         """f being a file-like object"""
-        #assert self.next_addr is not None
-        write_word(f, 0)  # TODO make this the next_addr
+        assert self.next_addr is not None
+        write_word(f, self.next_addr)
         write_word(f, self.line_number)
+        print >>sys.stderr, [hex(b) for b in self.bytes]
         for byte in self.bytes:
             f.write(chr(byte))
         f.write(chr(0))
+
+
+class Sentinel(object):
+    def __init__(self, addr):
+        self.addr = addr
+        self.next_addr = None
+
+    def __len__(self):
+        return 2
+
+    def write_to(self, f):
+        """f being a file-like object"""
+        write_word(f, 0)
 
 
 def main(argv):
@@ -156,6 +170,8 @@ def main(argv):
         tokenized_line = TokenizedLine(line.rstrip(), addr)
         addr += len(tokenized_line)
         tokenized_lines.append(tokenized_line)
+
+    tokenized_lines.append(Sentinel(addr))
 
     i = 1
     while i < len(tokenized_lines):

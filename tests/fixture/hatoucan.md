@@ -1,2 +1,2 @@
     -> Functionality "Tokenize Commodore BASIC 2.0 program" is implemented by shell command
-    -> "script/hatoucan <%(test-body-file) | hexdump"
+    -> "script/hatoucan <%(test-body-file) | fa-bin-to-hex"

@@ -8,7 +8,17 @@ This test suite is written in the format of Falderal 0.10.
 Fundamentals of Tokenization
 ----------------------------
 
+Rudimentary program.
+
+    | 10 print
+    = 010807080a0099000000
+
+All extra spaces after line number are stripped.
+
+    | 10     print
+    = 010807080a0099000000
+
+Strings in PETSCII.
+
     | 10 print "hello"
-    = 0000000 0801 080f 000a 2099 4822 4c45 4f4c 0022
-    = 0000010 0000                                   
-    = 0000012
+    = 01080f080a0099202248454c4c4f22000000

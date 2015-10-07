@@ -1,2 +1,2 @@
     -> Functionality "Tokenize Commodore BASIC 2.0 program" is implemented by shell command
-    -> "petcat -w2 -- %(test-body-file) 2>/dev/null | hexdump"
+    -> "petcat -w2 -- %(test-body-file) 2>/dev/null | fa-bin-to-hex"
