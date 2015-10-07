@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import re
 import sys
 
 # Inefficient-but-public-domain Commodore BASIC 2.0 tokenizer.
@@ -92,12 +91,15 @@ TOKENS = (
 )
 
 SPECIAL = (
+    ('{rvs off}',  0x92),
     ('{SHIFT-@}',  0xba),
+    ('{rvs on}',   0x12),
     ('{CBM-+}',    0xa6),
     ('{down}',     0x11),
     ('{home}',     0x13),
     ('{left}',     0x9d),
     ('{rght}',     0x1d),
+    ('{blk}',      0x90),    
     ('{blu}',      0x1f),
     ('{clr}',      0x93),
     ('{cyn}',      0x9f),
@@ -206,9 +208,17 @@ class Sentinel(object):
 
 
 def main(argv):
+    start_addr = 0x0801
+
+    while argv:
+        switch = argv.pop(0)
+        if switch == '-l':
+            start_addr = eval('0x' + argv.pop(0))
+        else:
+            raise NotImplementedError(switch)
+
     # TODO: set sys.stdout to binary mode for Windows folks
     tokenized_lines = []
-    start_addr = 0x0801
     addr = start_addr
     for line in sys.stdin:
         if not line.strip():
