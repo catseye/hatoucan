@@ -70,3 +70,16 @@ Certain control sequences in curly braces are recognized.
 
     | 1390 print"{SHIFT-@}{CBM-+}"
     = 01080b086e059922baa622000000
+
+Unterminated string literals are allowed, and computed correctly.
+
+    | 1400 print"hi
+    | 1410 print
+    = 01080a08780599224849001008820599000000
+
+Inside a double-quoted string, nothing gets tokenized.
+
+    | 1400 print"port
+    | 1410 print
+    = 01080c0878059922504f5254001208820599000000
+
