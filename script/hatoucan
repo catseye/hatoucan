@@ -91,7 +91,6 @@ TOKENS = (
     ('<', 179),
 )
 
-
 SPECIAL = (
     ('{SHIFT-@}',  0xba),
     ('{CBM-+}',    0xa6),
@@ -109,6 +108,7 @@ SPECIAL = (
     ('{yel}',      0x9e),
     ('{up}',       0x91),
 )
+
 
 def ascii_to_petscii(o):  # int -> int
     if o <= ord('@') or o in (ord('['), ord(']')):
@@ -129,11 +129,12 @@ def ascii_to_petscii(o):  # int -> int
     raise NotImplementedError("Cannot PETSCII: %s" % hex(o))
 
 
-def scan(s):
+def scan(s, in_quotes=False):
     # so inefficient.  I don't care.
-    for (token, value) in TOKENS:
-        if s.startswith(token):
-           return (value, s[len(token):])
+    if not in_quotes:
+        for (token, value) in TOKENS:
+            if s.startswith(token):
+               return (value, s[len(token):])
     if s[0] == '{':
         for (token, value) in SPECIAL:
            if s.startswith(token):
@@ -154,9 +155,12 @@ def scan_line_number(s):
 def tokenize(s):
     (line_number, s) = scan_line_number(s)
     bytes = []
+    in_quotes = False
     while s:
-        (byte, s) = scan(s)
+        (byte, s) = scan(s, in_quotes=in_quotes)
         bytes.append(byte)
+        if byte == ord('"'):
+            in_quotes = not in_quotes
     return (line_number, bytes)
 
 
