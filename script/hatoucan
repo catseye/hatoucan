@@ -13,93 +13,108 @@ import sys
 #   http://www.c64-wiki.com/index.php/BASIC_token
 
 TOKENS = (
-    ('END', 128),
-    ('FOR', 129),
-    ('NEXT', 130),
-    ('DATA', 131),
-    ('INPUT#', 132),
-    ('INPUT', 133),
-    ('DIM', 134),
-    ('READ', 135),
-    ('LET', 136),
-    ('GOTO', 137),
-    ('RUN', 138),
-    ('IF', 139),
-    ('RESTORE', 140),
-    ('GOSUB', 141),
-    ('RETURN', 142),
-    ('REM', 143),
-    ('STOP', 144),
-    ('ON', 145),
-    ('WAIT', 146),
-    ('LOAD', 147),
-    ('SAVE', 148),
-    ('VERIFY', 149),
-    ('DEF', 150),
-    ('POKE', 151),
-    ('PRINT#', 152),
-    ('PRINT', 153),
-    ('CONT', 154),
-    ('LIST', 155),
-    ('CLR', 156),
-    ('CMD', 157),
-    ('SYS', 158),
-    ('OPEN', 159),
-    ('CLOSE', 160),
-    ('GET', 161),
-    ('NEW', 162),
-    ('TAB(', 163),
-    ('TO', 164),
-    ('FN', 165),
-    ('SPC(', 166),
-    ('THEN', 167),
-    ('NOT', 168),
-    ('STEP', 169),
+    ('restore', 140),
+    ('input#', 132),
+    ('return', 142),
+    ('verify', 149),
+    ('print#', 152),
+    ('right$', 201),
+    ('input', 133),
+    ('gosub', 141),
+    ('print', 153),
+    ('close', 160),
+    ('left$', 200),
+    ('next', 130),
+    ('data', 131),
+    ('read', 135),
+    ('goto', 137),
+    ('stop', 144),
+    ('wait', 146),
+    ('load', 147),
+    ('save', 148),
+    ('poke', 151),
+    ('cont', 154),
+    ('list', 155),
+    ('open', 159),
+    ('tab(', 163),
+    ('spc(', 166),
+    ('then', 167),
+    ('step', 169),
+    ('peek', 194),
+    ('str$', 196),
+    ('chr$', 199),
+    ('mid$', 202),
+    ('end', 128),
+    ('for', 129),
+    ('dim', 134),
+    ('let', 136),
+    ('run', 138),
+    ('rem', 143),
+    ('def', 150),
+    ('clr', 156),
+    ('cmd', 157),
+    ('sys', 158),
+    ('get', 161),
+    ('new', 162),
+    ('not', 168),
+    ('and', 175),
+    ('sgn', 180),
+    ('int', 181),
+    ('abs', 182),
+    ('usr', 183),
+    ('fre', 184),
+    ('pos', 185),
+    ('sqr', 186),
+    ('rnd', 187),
+    ('log', 188),
+    ('exp', 189),
+    ('cos', 190),
+    ('sin', 191),
+    ('tan', 192),
+    ('atn', 193),
+    ('len', 195),
+    ('val', 197),
+    ('asc', 198),
+    ('if', 139),
+    ('on', 145),
+    ('to', 164),
+    ('fn', 165),
+    ('or', 176),
+    ('go', 203),
     ('+', 170),
     ('*', 172),
     ('/', 173),
     ('^', 174),
-    ('AND', 175),
-    ('OR', 176),
     ('>', 177),
     ('=', 178),
     ('<', 179),
-    ('SGN', 180),
-    ('INT', 181),
-    ('ABS', 182),
-    ('USR', 183),
-    ('FRE', 184),
-    ('POS', 185),
-    ('SQR', 186),
-    ('RND', 187),
-    ('LOG', 188),
-    ('EXP', 189),
-    ('COS', 190),
-    ('SIN', 191),
-    ('TAN', 192),
-    ('ATN', 193),
-    ('PEEK', 194),
-    ('LEN', 195),
-    ('STR$', 196),
-    ('VAL', 197),
-    ('ASC', 198),
-    ('CHR$', 199),
-    ('LEFT$', 200),
-    ('RIGHT$', 201),
-    ('MID$', 202),
-    ('GO', 203),
 )
 
-LENGTH_SORTED_TOKENS = sorted(TOKENS, key=lambda pair: len(pair[0]), reverse=True)
+def ascii_to_petscii(o):  # int -> int
+    if o <= ord('@') or o in (ord('['), ord(']')):
+        return o
+    if o >= ord('a') and o <= ord('z'):
+        return o - ord('a') + 0x41
+    if o >= ord('A') and o <= ord('Z'):
+        # adding 0x61 should be enough for PETSCII but.. tokenization adds
+        # something more?  oh dear.
+        return o - ord('A') + 0x61 + 0x60
+    # TODO:
+    # pound sign? 0x5c
+    # up arrow? 0x5e
+    # left arrow? 0x5f
+    # hatched box? 0x60
+    # pi? 0x7e
+    # upper right triangle? 0x7f
+    raise NotImplementedError("Cannot PETSCII: %s" % hex(o))
 
 
 def scan(s):
     # so inefficient.  I don't care.
-    upped = s.upper()
-    for (token, value) in LENGTH_SORTED_TOKENS:
-        if upped.startswith(token):
+    for (token, value) in TOKENS:
+        if s.startswith(token):
            return (value, s[len(token):])
-    return (ord(s[0]), s[1:])
+    return (ascii_to_petscii(ord(s[0])), s[1:])
 
 
 def scan_line_number(s):
