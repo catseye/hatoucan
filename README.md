@@ -22,4 +22,4 @@ Usage is simple.  From this directory,
 Alternatively, put the `script` directory somewhere on your search path,
 and the script can be invoked simply as `hatoucan`.
 
-Note, it is not finished yet.  We'll have a test suite soon...
+Note, it is not finished yet, but there's the start of a test suite.
