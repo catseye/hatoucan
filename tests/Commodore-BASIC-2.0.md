@@ -86,3 +86,7 @@ Inside a double-quoted string, nothing gets tokenized.
     | 1410 print
     = 01080c0878059922504f5254001208820599000000
 
+Inside a REM, nothing gets tokenized.
+
+    | 1 rem and
+    = 01080b0801008f20414e44000000

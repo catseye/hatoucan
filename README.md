@@ -35,12 +35,17 @@ the [VICE][] distribution, why did I write this?
 
 Well, any reasonable person would probably be wise to just use `petcat`.
 But, I wanted a tool that could be included with [The Platform][] that could
-tokenize the Commodore BASIC programs that are part of The Platform —
-[Bubble Escape][] and [Dungeons of Ekileugor][] in particular — and
-none of the tokenizers I found appealed to me.  `petcat` itself
+tokenize the Commodore BASIC programs that are part of The Platform, namely:
+
+*   the original implementation of [Bubble Escape][]
+*   [Dungeons of Ekileugor][]
+*   [DiskSumo][]
+*   the front-panel simulator from [SITU-SOL][]
+
+and none of the tokenizers I found appealed to me.  `petcat` in particular
 
 *   is licensed under the GPL.  I prefer less parasitic licensing.
-*   is bundled with VICE (if there is a standalone distribution, I was
+*   is bundled with VICE.  (If there is a standalone distribution, I was
     unable to find it.)  I would either need to extract it, or include
     all of VICE in The Platform.
 *   has kind of weird command-line usage, if you ask me.
@@ -69,8 +74,10 @@ programs) — simply add an adapter for your implementation to the
 `tests/fixture` directory.
 
 [Bubble Escape]:          http://catseye.tc/node/Bubble_Escape
+[DiskSumo]:               https://github.com/cpressey/DiskSumo
 [Dungeons of Ekileugor]:  http://catseye.tc/node/Dungeons_of_Ekileugor
 [Falderal]:               http://catseye.tc/node/Falderal
+[SITU-SOL]:               https://github.com/catseye/SITU-SOL
 [toolshelf]:              http://catseye.tc/node/toolshelf
 [VICE]:                   http://vice-emu.sourceforge.net/
 [The Platform]:           http://github.com/catseye/The-Platform
