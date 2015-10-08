@@ -1,10 +1,18 @@
 #!/bin/sh
 
-# TODO: only run petcat tests if it is present
+APPLIANCES="tests/appliances/hatoucan.md"
 
-FIXTURES="tests/fixture/petcat.md tests/fixture/hatoucan.md"
+if [ X`which petcat` = X ]; then
+  echo 'petcat unavailable, skipping petcat tests.'
+else
+  APPLIANCES="$APPLIANCES tests/appliances/petcat.md"
+fi
 
-falderal $FIXTURES tests/Commodore-BASIC-2.0.md || exit $?
+falderal $APPLIANCES tests/Commodore-BASIC-2.0.md || exit $?
+
+if [ X`which petcat` = X ]; then
+  exit 0
+fi
 
 SOURCE="../bubble-escape/src/bubble escape.bas"
 if [ -e "$SOURCE" ]; then

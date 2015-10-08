@@ -40,7 +40,7 @@ tokenize the Commodore BASIC programs that are part of The Platform, namely:
 *   the original implementation of [Bubble Escape][]
 *   [Dungeons of Ekileugor][]
 *   [DiskSumo][]
-*   the front-panel simulator from [SITU-SOL][]
+*   the binary-loader and front-panel simulator from [SITU-SOL][]
 
 and none of the tokenizers I found appealed to me.  `petcat` in particular
 
@@ -58,6 +58,11 @@ Plus the prospect of writing a tokenizer seemed easy enough, and that did
 appeal to me.  After obtaining reference materials, it was basically
 finished in a single day.
 
+It also appealed to me to write it in a rather low-key style, without
+using any of Python's "included batteries", including regular expressions.
+This should make it easier to adapt to RPython or Skulpt, or to translate
+to other languages, for instance Lua, as desired.
+
 Of course, it is not very efficient, and only a subset of the `petcat`
 special character codes such as `{wht}` are supported.  But it suits my
 purposes.
@@ -65,13 +70,18 @@ purposes.
 Oh, also...
 -----------
 
-`hatoucan` was written in a test-driven manner, using a [Falderal] test
-suite for Commodore BASIC 2.0 tokenization.  The tests in this suite
-should pass with under `petcat` and `hatoucan`, and, if you find or write
+This was a great excuse to write a
+[test suite for Commodore BASIC tokenization](tests/Commodore-BASIC-2.0.md).
+
+The test suite is written in [Falderal] format.  As such, it is
+implementation-agnostic — Falderal tests languages and protocols rather than
+particular programs.
+
+`hatoucan` was written in a test-driven manner against it, but the tests
+in this suite also pass under `petcat`.  And, if you find or write
 another Commodore BASIC tokenizer, you can use this same test suite to
-test it (Falderal tests languages and protocols, rather than particular
-programs) — simply add an adapter for your implementation to the
-`tests/fixture` directory.
+test it — simply add an adapter for your implementation to the
+`tests/appliances` directory.
 
 [Bubble Escape]:          http://catseye.tc/node/Bubble_Escape
 [DiskSumo]:               https://github.com/cpressey/DiskSumo
