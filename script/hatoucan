@@ -97,10 +97,10 @@ SPECIAL = (
     ('{CBM-+}',    0xa6),
     ('{CBM-E}',    0xb1),
     ('{CBM-R}',    0xb2),
-    ('{CBM-T}',    0xff),
+    ('{CBM-T}',    0xa3),
     ('{down}',     0x11),
     ('{home}',     0x13),
-    ('{lblu}',     0xff),
+    ('{lblu}',     0x9a),
     ('{left}',     0x9d),
     ('{rght}',     0x1d),
     ('{blk}',      0x90),    
@@ -135,9 +135,9 @@ def ascii_to_petscii(o):  # int -> int
     raise NotImplementedError("Cannot PETSCII: %s" % hex(o))
 
 
-def scan(s, in_quotes=False):
+def scan(s, tokenize=True):
     # so inefficient.  I don't care.
-    if not in_quotes:
+    if tokenize:
         for (token, value) in TOKENS:
             if s.startswith(token):
                return (value, s[len(token):])
@@ -162,11 +162,14 @@ def tokenize(s):
     (line_number, s) = scan_line_number(s)
     bytes = []
     in_quotes = False
+    in_remark = False
     while s:
-        (byte, s) = scan(s, in_quotes=in_quotes)
+        (byte, s) = scan(s, tokenize=not (in_quotes or in_remark))
         bytes.append(byte)
         if byte == ord('"'):
             in_quotes = not in_quotes
+        if byte == 143:
+            in_remark = True
     return (line_number, bytes)
 
 
