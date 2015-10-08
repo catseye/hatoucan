@@ -1,5 +1,5 @@
-100 R=INT(RND(1)*6)+1:W=INT(RND(1)*6)+1
-110 PRINT "RED DIE:";R
-120 PRINT "WHITE DIE:";W
-130 PRINT
-140 GET A$:GOTO 100
+100 r=int(rnd(1)*6)+1:w=int(rnd(1)*6)+1
+110 print "red die:";R
+120 print "white die:";W
+130 print
+140 get a$:goto 100
