@@ -217,6 +217,7 @@ class Sentinel(object):
 def main(argv):
     start_addr = 0x0801
 
+    # parse command line
     while argv:
         switch = argv.pop(0)
         if switch == '-l':
@@ -224,7 +225,13 @@ def main(argv):
         else:
             raise NotImplementedError(switch)
 
-    # TODO: set sys.stdout to binary mode for Windows folks
+    # set sys.stdout to binary mode for Windows folks
+    # reference: http://code.activestate.com/recipes/65443-sending-binary-data-to-stdout-under-windows/
+    if sys.platform == "win32":
+        import os, msvcrt
+        msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
+
+    # tokenize all lines of input, and terminate with a sentinel
     tokenized_lines = []
     addr = start_addr
     for line in sys.stdin:
@@ -233,18 +240,17 @@ def main(argv):
         tokenized_line = TokenizedLine(line.rstrip(), addr)
         addr += len(tokenized_line)
         tokenized_lines.append(tokenized_line)
-
     tokenized_lines.append(Sentinel(addr))
 
+    # make second pass to resolve each line's pointer to start of next line
     i = 1
     while i < len(tokenized_lines):
         tokenized_lines[i - 1].next_addr = tokenized_lines[i].addr
         i += 1
 
+    # write tokenized lines to output
     outfile = sys.stdout
-
     write_word(outfile, start_addr)
-
     for tokenized_line in tokenized_lines:
         tokenized_line.write_to(outfile)
 
