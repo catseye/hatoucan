@@ -2,9 +2,12 @@ hatoucan
 ========
 
 `hatoucan` is a tokenizer for Commodore BASIC 2.0 programs.  You give it a
-text file, and it gives you a `.PRG` file, which can then be run on a
-Commodore computer (or emulator) such as the Commodore 64 or VIC-20.  It is
-written in Python 2.x and its source code is in the [public domain](UNLICENSE).
+text file containing BASIC source code, and it gives you a `.PRG` file which
+can be run on a Commodore computer (or emulator) such as the Commodore 64 or
+VIC-20.
+
+`hatoucan` is written in Python 2.x and its source code is in the
+[public domain](UNLICENSE).
 
 Quick start
 -----------
@@ -34,12 +37,13 @@ programs already freely available, such as `petcat` which is included in
 the [VICE][] distribution, why did I write this?
 
 Well, any reasonable person would probably be wise to just use `petcat`.
-But, I wanted a tool that could be included with [The Platform][] that could
-tokenize the Commodore BASIC programs that are part of The Platform, namely:
+But, I wanted a tool that could be included in [The Platform][] that would
+be able to tokenize the Commodore BASIC programs that are part of
+The Platform, namely:
 
 *   the original implementation of [Bubble Escape][]
-*   [Dungeons of Ekileugor][]
 *   [DiskSumo][]
+*   [Dungeons of Ekileugor][]
 *   the binary-loader and front-panel simulator from [SITU-SOL][]
 
 and none of the tokenizers I found appealed to me.  `petcat` in particular
@@ -61,7 +65,7 @@ finished in a single day.
 It also appealed to me to write it in a rather low-key style, without
 using any of Python's "included batteries", including regular expressions.
 This should make it easier to adapt to RPython or Skulpt, or to translate
-to other languages, for instance Lua, as desired.
+to other languages, for instance Lua, if desired.
 
 Of course, it is not very efficient, and only a subset of the `petcat`
 special character codes such as `{wht}` are supported.  But it suits my
@@ -77,11 +81,11 @@ The test suite is written in [Falderal] format.  As such, it is
 implementation-agnostic — Falderal tests languages and protocols rather than
 particular programs.
 
-`hatoucan` was written in a test-driven manner against it, but the tests
-in this suite also pass under `petcat`.  And, if you find or write
+`hatoucan` was written in a TDD manner against this test suite, but the
+tests in it also pass under `petcat`.  And, if you find or write
 another Commodore BASIC tokenizer, you can use this same test suite to
 test it — simply add an adapter for your implementation to the
-`tests/appliances` directory.
+`tests/appliances` directory and adjust `test.sh` to apply it.
 
 [Bubble Escape]:          http://catseye.tc/node/Bubble_Escape
 [DiskSumo]:               https://github.com/cpressey/DiskSumo
