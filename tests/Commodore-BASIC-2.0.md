@@ -68,11 +68,13 @@ Certain control sequences in curly braces are recognized.
     | 1390 print"{red}{cyn}{blu}{grn}{pur}{yel}{wht}{blk}"
     = 010811086e0599221c9f1f1e9c9e059022000000
 
-    | 1390 print"{rvs on}{rvs off}"
-    = 01080b086e059922129222000000
-
     | 1390 print"{SHIFT-@}{CBM-+}"
     = 01080b086e059922baa622000000
+
+This one isn't supported by `petcat` anymore, it seems...
+
+    1390 print"{rvs on}{rvs off}"
+    01080b086e059922129222000000
 
 Unterminated string literals are allowed, and computed correctly.
 

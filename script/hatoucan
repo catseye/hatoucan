@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import struct
 import sys
 
 # Inefficient-but-public-domain Commodore BASIC 2.0 tokenizer.
@@ -10,6 +11,8 @@ import sys
 # references:
 #   http://justsolve.archiveteam.org/wiki/Commodore_BASIC_tokenized_file
 #   http://www.c64-wiki.com/index.php/BASIC_token
+
+DEBUG = False
 
 TOKENS = (
     ('restore', 140),
@@ -173,11 +176,16 @@ def tokenize(s):
     return (line_number, bytes)
 
 
+def packbyte(byte):
+    return struct.pack('B', byte)
+
+
 def write_word(f, word):
     """f being a file-like object, word being an integer 0-65535"""
     low = word & 255
     high = (word >> 8) & 255
-    f.write(chr(low) + chr(high))
+    f.write(packbyte(low))
+    f.write(packbyte(high))
 
 
 class TokenizedLine(object):
@@ -188,6 +196,9 @@ class TokenizedLine(object):
         self.addr = addr
         self.next_addr = None
 
+    def __str__(self):
+        return '{} @{}: {}'.format(self.line_number, self.addr, self.bytes)
+
     def __len__(self):
         return len(self.bytes) + 5
 
@@ -197,8 +208,8 @@ class TokenizedLine(object):
         write_word(f, self.next_addr)
         write_word(f, self.line_number)
         for byte in self.bytes:
-            f.write(chr(byte))
-        f.write(chr(0))
+            f.write(packbyte(byte))
+        f.write(packbyte(0))
 
 
 class Sentinel(object):
@@ -239,6 +250,8 @@ def main(argv):
             continue
         tokenized_line = TokenizedLine(line.rstrip(), addr)
         addr += len(tokenized_line)
+        if DEBUG:
+            sys.stderr.write('{}\n'.format(tokenized_line))
         tokenized_lines.append(tokenized_line)
     tokenized_lines.append(Sentinel(addr))
 
@@ -248,8 +261,15 @@ def main(argv):
         tokenized_lines[i - 1].next_addr = tokenized_lines[i].addr
         i += 1
 
+    # obtain a file-like object for stdout to which we can write bytes
+    try:
+        # Python 3
+        outfile = sys.stdout.buffer
+    except AttributeError:
+        # Python 2
+        outfile = sys.stdout
+
     # write tokenized lines to output
-    outfile = sys.stdout
     write_word(outfile, start_addr)
     for tokenized_line in tokenized_lines:
         tokenized_line.write_to(outfile)
