@@ -14,7 +14,7 @@ if [ X`which petcat` = X ]; then
   exit 0
 fi
 
-SOURCE="../bubble-escape/src/bubble escape.bas"
+SOURCE="../Bubble-Escape/src/bubble escape.bas"
 if [ -e "$SOURCE" ]; then
   ./confirm-tokenization.sh 0801 "$SOURCE" || exit $?
   echo $SOURCE tokenized identically to petcat.
@@ -22,7 +22,7 @@ else
   echo $SOURCE not found, skipping test.
 fi
 
-SOURCE="../situ-sol/src/binloader.bas"
+SOURCE="../SITU-SOL/src/binloader.bas"
 if [ -e "$SOURCE" ]; then
   ./confirm-tokenization.sh 0801 "$SOURCE" || exit $?
   echo $SOURCE tokenized identically to petcat.
@@ -30,7 +30,7 @@ else
   echo $SOURCE not found, skipping test.
 fi
 
-SOURCE="../situ-sol/src/frontpanel.bas"
+SOURCE="../SITU-SOL/src/frontpanel.bas"
 if [ -e "$SOURCE" ]; then
   ./confirm-tokenization.sh 0801 "$SOURCE" || exit $?
   echo $SOURCE tokenized identically to petcat.
@@ -38,7 +38,7 @@ else
   echo $SOURCE not found, skipping test.
 fi
 
-SOURCE="../disksumo/src/disksumo.bas"
+SOURCE="../DiskSumo/src/disksumo.bas"
 if [ -e "$SOURCE" ]; then
   ./confirm-tokenization.sh 0801 "$SOURCE" || exit $?
   echo $SOURCE tokenized identically to petcat.
@@ -46,12 +46,14 @@ else
   echo $SOURCE not found, skipping test.
 fi
 
-SOURCE="../dungeons-of-ekileugor/src/ekileugor.bas"
-if [ -e "$SOURCE" ]; then
+SOURCE="../Dungeons-of-Ekileugor/src/ekileugor.bas"
+if [ -e "$SOURCE" -a X`which yucca` != "X" ]; then
   yucca -R -x "$SOURCE" > yucca.bas.txt || exit $?
   ./confirm-tokenization.sh 1001 yucca.bas.txt || exit $?
   echo $SOURCE tokenized identically to petcat.
   rm -f yucca.bas.txt
+else
+  echo yucca and/or $SOURCE not found, skipping test.
 fi
 
 exit 0
