@@ -1,13 +1,19 @@
 hatoucan
 ========
 
+_Entry_ [@ catseye.tc](https://catseye.tc/node/hatoucan)
+| _See also:_ [yucca](https://github.com/catseye/yucca#readme)
+∘ [DiskSumo](https://github.com/catseye/DiskSumo#readme)
+
+- - - -
+
 `hatoucan` is a tokenizer for Commodore BASIC 2.0 programs.  You give it a
 text file containing BASIC source code, and it gives you a `.PRG` file which
 can be run on a Commodore computer (or emulator) such as the Commodore 64 or
 VIC-20.
 
-`hatoucan` is written in Python 2.x and its source code is in the
-[public domain](UNLICENSE).
+`hatoucan` is written in Python (runs under Python 2 or Python 3) and its
+source code is in the [public domain](UNLICENSE).
 
 Quick start
 -----------
