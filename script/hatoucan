@@ -95,8 +95,10 @@ TOKENS = (
 
 SPECIAL = (
     ('{rvs off}',  0x92),
+    ('{rvof}',     0x92),
     ('{SHIFT-@}',  0xba),
     ('{rvs on}',   0x12),
+    ('{rvon}',     0x12),
     ('{CBM-+}',    0xa6),
     ('{CBM-E}',    0xb1),
     ('{CBM-R}',    0xb2),
