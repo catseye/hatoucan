@@ -1,0 +1,2 @@
+    -> Functionality "Tokenize Commodore BASIC 2.0 program" is implemented by shell command
+    -> "python2 script/hatoucan <%(test-body-file) | fa-bin-to-hex"

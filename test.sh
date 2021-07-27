@@ -1,6 +1,17 @@
 #!/bin/sh
 
-APPLIANCES="tests/appliances/hatoucan.md"
+APPLIANCES=""
+if command -v python2 > /dev/null 2>&1; then
+    APPLIANCES="$APPLIANCES tests/appliances/hatoucan.py2.md"
+fi
+if command -v python3 > /dev/null 2>&1; then
+    APPLIANCES="$APPLIANCES tests/appliances/hatoucan.py2.md"
+fi
+
+if [ "x$APPLIANCES" = "x" ]; then
+    echo "No suitable Python versions found."
+    exit 1
+fi
 
 if [ X`which petcat` = X ]; then
   echo 'petcat unavailable, skipping petcat tests.'
