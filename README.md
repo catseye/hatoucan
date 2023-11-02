@@ -2,8 +2,8 @@ hatoucan
 ========
 
 _Entry_ [@ catseye.tc](https://catseye.tc/node/hatoucan)
-| _See also:_ [yucca](https://github.com/catseye/yucca#readme)
-∘ [DiskSumo](https://github.com/catseye/DiskSumo#readme)
+| _See also:_ [yucca](https://codeberg.org/catseye/yucca#yucca)
+∘ [DiskSumo](https://catseye.tc/node/DiskSumo)
 
 - - - -
 
@@ -24,7 +24,7 @@ Usage is simple.  From this directory,
 
 Alternatively, put the `script` directory somewhere on your search path,
 and the script can be invoked simply as `hatoucan`.  (An easy way to manage
-this is to use [toolshelf][].)
+this is to use [shelf][].)
 
 There is one command-line option, `-l`, which allows the load address to
 be specified in hexadecimal.  For example, to tokenize a program to load on
@@ -93,11 +93,11 @@ another Commodore BASIC tokenizer, you can use this same test suite to
 test it — simply add an adapter for your implementation to the
 `tests/appliances` directory and adjust `test.sh` to apply it.
 
-[Bubble Escape]:          http://catseye.tc/node/Bubble_Escape
-[DiskSumo]:               https://github.com/cpressey/DiskSumo
-[Dungeons of Ekileugor]:  http://catseye.tc/node/Dungeons_of_Ekileugor
-[Falderal]:               http://catseye.tc/node/Falderal
-[SITU-SOL]:               https://github.com/catseye/SITU-SOL
-[toolshelf]:              http://catseye.tc/node/toolshelf
-[VICE]:                   http://vice-emu.sourceforge.net/
-[The Platform]:           http://github.com/catseye/The-Platform
+[Bubble Escape]:          https://catseye.tc/node/Bubble_Escape
+[DiskSumo]:               https://catseye.tc/node/DiskSumo
+[Dungeons of Ekileugor]:  https://catseye.tc/node/Dungeons_of_Ekileugor
+[Falderal]:               https://catseye.tc/node/Falderal
+[SITU-SOL]:               https://catseye.tc/node/SITU-SOL
+[shelf]:                  https://catseye.tc/node/shelf
+[VICE]:                   https://vice-emu.sourceforge.io/
+[The Platform]:           https://catseye.tc/node/The%20Platform
